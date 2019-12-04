@@ -27,6 +27,7 @@ class App {
   final String upstream;
   final String googleapisProxy;
   final String overrideUploaderEmail;
+  final String pemPath;
   final Future<void> Function(
       Map<String, dynamic> pubspec, String uploaderEmail) uploadValidator;
 
@@ -37,6 +38,7 @@ class App {
     this.googleapisProxy,
     this.overrideUploaderEmail,
     this.uploadValidator,
+    this.pemPath,
   });
 
   static shelf.Response _okWithJson(Map<String, dynamic> data) =>
@@ -100,7 +102,20 @@ class App {
         return res;
       }
     });
-    var server = await shelf_io.serve(handler, host, port);
+
+    final securityContext = this.pemPath.isNotEmpty
+        ? (SecurityContext()
+          ..useCertificateChain(this.pemPath)
+          ..usePrivateKey(this.pemPath))
+        : null;
+
+    var server = await shelf_io.serve(
+      handler,
+      host,
+      port,
+      securityContext: securityContext,
+    );
+
     return server;
   }
 
