@@ -20,7 +20,7 @@ dependencies:
   yaml: ^2.1.15
   pub_semver: ^1.4.2
   json_annotation: ^3.0.0
-  mongo_dart: ^0.3.6
+  mongo_dart: ^0.4.2
   mime: ^0.9.6+3
   intl: ^0.16.0
   path: ^1.6.2
